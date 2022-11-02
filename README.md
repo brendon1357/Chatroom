@@ -5,4 +5,4 @@ with slight modifications. Would need to generate your own client trust store an
 
 # Logging
 
-Server is capable logging messages to the included logfile.log file.
+Server is capable of logging messages to the included logfile.log file.
