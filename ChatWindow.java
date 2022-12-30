@@ -299,7 +299,7 @@ public class ChatWindow extends JFrame {
     /*
      * Used to append text to the textpane.
      */
-    public void appendToPane(JTextPane tp, String msg, Color c, boolean bold, int fontSize, String font) {
+    private void appendToPane(JTextPane tp, String msg, Color c, boolean bold, int fontSize, String font) {
         StyledDocument doc = tp.getStyledDocument();
         Style style = tp.addStyle("Color Style", null);
         StyleConstants.setForeground(style, c);
@@ -318,7 +318,7 @@ public class ChatWindow extends JFrame {
     /*
      * Close all buffers and connected socket
      */
-    public void closeEverything(SSLSocket socket, BufferedReader in, PrintWriter out) {
+    private void closeEverything(SSLSocket socket, BufferedReader in, PrintWriter out) {
         try {
             if (in != null) { 
             	in.close();
@@ -337,7 +337,7 @@ public class ChatWindow extends JFrame {
     /*
      * Send out the message to be broadcasted to all other connected users
      */
-    public void sendMessageOverSocket(String messageToSend, boolean replying, String replyUsername, String replyMsg) {
+    private void sendMessageOverSocket(String messageToSend, boolean replying, String replyUsername, String replyMsg) {
         out.println(client.getUsername());
         out.flush();
         if (replying) {
@@ -356,7 +356,7 @@ public class ChatWindow extends JFrame {
     /*
      * Insert given number of newline characters in textPane
      */
-    public void insertNewLines(int numOfLines, StyledDocument doc) {
+    private void insertNewLines(int numOfLines, StyledDocument doc) {
     	try {
 			doc.insertString(doc.getLength(), "\n".repeat(numOfLines), null);
 		} catch (BadLocationException e) {
@@ -367,7 +367,7 @@ public class ChatWindow extends JFrame {
     /*
      * Kick client from the server, close connection between server and client
      */
-    public void kickClient(StyledDocument doc) {
+    private void kickClient(StyledDocument doc) {
     	closeEverything(sslSocket, in , out);
     	insertNewLines(2, doc);
         appendToPane(textPane, "You have been kicked from the server!", Color.RED, true, 18, "Arial");
@@ -377,7 +377,7 @@ public class ChatWindow extends JFrame {
     /*
      * Appends message to text pane with a message sent from the server/admin
      */
-    public void sendMessageFromAdmin(String msg, StyledDocument doc) {
+    private void sendMessageFromAdmin(String msg, StyledDocument doc) {
     	JLabel username = new JLabel("Admin");
         username.setFont(new Font("Arial", Font.BOLD, 18));
         username.setForeground(Color.RED);
@@ -392,7 +392,7 @@ public class ChatWindow extends JFrame {
     /*
      * Mute client for given amount of time which can be parsed from the provided message
      */
-    public void muteClient(String msg, StyledDocument doc) {
+    private void muteClient(String msg, StyledDocument doc) {
     	int timeToMute;
 		for (String name : namesList) {
 			if (msg.contains(name)) {
@@ -432,7 +432,7 @@ public class ChatWindow extends JFrame {
     /*
      * Returns a list with all URLs contained in the input string
      */
-    public static List<String> extractUrls(String text)
+    private static List<String> extractUrls(String text)
     {
         List<String> containedUrls = new ArrayList<String>();
         // Regex used to check for URLs in given text
@@ -451,7 +451,7 @@ public class ChatWindow extends JFrame {
     /*
      * Return true or false depending on whether or not given message has a URL in it
      */
-    public boolean checkIfURLS(String message) {
+    private boolean checkIfURLS(String message) {
     	if (extractUrls(message).size() > 0) {
     		return true;
     	}
@@ -464,7 +464,7 @@ public class ChatWindow extends JFrame {
      * Specific method used to display messages in textPane that contain URLS so that they can be clicked and launched
      * in default web browser
      */
-    public void sendMsgWithURLS(StyledDocument doc, String message, Color color) {
+    private void sendMsgWithURLS(StyledDocument doc, String message, Color color) {
     	String original = message.trim();
     	List<String> urls = extractUrls(original);
     	// Making URLs underlined with a blue colour
@@ -568,7 +568,7 @@ public class ChatWindow extends JFrame {
      * Large method responsible for displaying message related data in textPane 
      * (usernames, messages, replies, etc.)
      */
-    public void handleDisplayingMessages(String username, StyledDocument doc, String message, String repliedUsername, String repliedMessage) {
+    private void handleDisplayingMessages(String username, StyledDocument doc, String message, String repliedUsername, String repliedMessage) {
     	JLabel usernameLabel = new JLabel(username);
     	usernameLabel.setForeground(Color.WHITE);
     	usernameLabel.setFont(new Font("Arial", Font.BOLD, 18));       
@@ -822,7 +822,7 @@ public class ChatWindow extends JFrame {
     /*
      * Format the given date
      */
-    public String formatDate(String date) {
+    private String formatDate(String date) {
         String dateUpper = date.toUpperCase();
         String dateFormatted = dateUpper.replace(".", "");
 
@@ -833,7 +833,7 @@ public class ChatWindow extends JFrame {
      * Method used to send a message to other users and add the users sent message
      * to their own chat view
      */
-    public void send() {
+    private void send() {
     	StyledDocument doc = textPane.getStyledDocument();
         date = new Date(System.currentTimeMillis());
         if (inputField.getText().trim().length() > 0) {       
